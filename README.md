@@ -115,3 +115,71 @@ Este projeto é uma implementação de um sistema de **e-commerce** utilizando *
 - `Shipment`: controle de envio
 - `Review`: avaliação de produto
 
+---
+
+# Diagrama
+
+```mermaid
+flowchart TD
+    subgraph Gateway
+        APIGW[API Gateway]
+    end
+
+    subgraph Auth
+        AUTH[Auth Service]
+    end
+
+    subgraph Catálogo
+        PRODUCT[Product Service]
+        REVIEW[Review Service]
+    end
+
+    subgraph Compras
+        CART[Cart Service]
+        ORDER[Order Service]
+        PAYMENT[Payment Service]
+    end
+
+    subgraph Logística
+        SHIPPING[Shipping Service]
+    end
+
+    subgraph Comunicação
+        NOTIFY[Notification Service]
+    end
+
+    subgraph Kafka[Kafka - Mensageria]
+        K1((order.created))
+        K2((order.paid))
+        K3((order.shipped))
+        K4((review.created))
+    end
+
+    APIGW --> AUTH
+    APIGW --> PRODUCT
+    APIGW --> REVIEW
+    APIGW --> CART
+    APIGW --> ORDER
+    APIGW --> PAYMENT
+    APIGW --> SHIPPING
+    APIGW --> NOTIFY
+
+    REVIEW --> PRODUCT
+
+    CART --> PRODUCT
+    ORDER --> CART
+    ORDER --> PRODUCT
+    PAYMENT --> ORDER
+    SHIPPING --> ORDER
+
+    ORDER -->|emite| K1
+    PAYMENT -->|emite| K2
+    SHIPPING -->|emite| K3
+    REVIEW -->|emite| K4
+
+    K1 --> NOTIFY
+    K2 --> NOTIFY
+    K2 --> SHIPPING
+    K3 --> NOTIFY
+```
+
