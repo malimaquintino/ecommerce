@@ -1,0 +1,12 @@
+application:
+  title: Auth
+  version: 0.0.1-SNAPSHOT
+
+environment: ${ENVIRONMENT:local}
+
+server:
+  port: 8081
+
+spring:
+  application:
+    name: auth-ms
