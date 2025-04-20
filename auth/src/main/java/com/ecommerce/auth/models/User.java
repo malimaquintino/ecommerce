@@ -1,4 +1,4 @@
-package com.ecommerce.auth.model;
+package com.ecommerce.auth.models;
 
 import com.ecommerce.auth.enums.UserType;
 import jakarta.persistence.*;
@@ -6,13 +6,12 @@ import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 public class User {
     @Id
-    private UUID id;
+    private Long id;
     private String name;
     private String email;
     private String password;
