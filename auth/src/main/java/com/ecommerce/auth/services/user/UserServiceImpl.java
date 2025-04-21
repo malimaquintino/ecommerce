@@ -2,7 +2,9 @@ package com.ecommerce.auth.services.user;
 
 import com.ecommerce.auth.dto.user.UserInputDto;
 import com.ecommerce.auth.dto.user.UserOutputDto;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserServiceImpl implements UserService {
     @Override
     public UserOutputDto create(UserInputDto inputDto) {

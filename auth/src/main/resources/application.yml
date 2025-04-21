@@ -10,3 +10,24 @@ server:
 spring:
   application:
     name: auth-ms
+  datasource:
+    url: jdbc:postgresql://${SQL_DATABASE_SERVER_HOST:localhost}:${SQL_DATABASE_SERVER_PORT:5432}/${SQL_DATABASE_NAME:ecommerce}?currentSchema=auth
+    username: ${SQL_DATABASE_USERNAME:postgres}
+    password: ${SQL_DATABASE_PASSWORD:mypass}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    flyway:
+      enabled: true
+      schemas: user
+      baseline-on-migrate: true
+      baseline-version: "1_001"
+      ignore-future-migrations: false
