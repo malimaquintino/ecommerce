@@ -7,6 +7,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: mypass
+      POSTGRES_DB: ecommerce
       PGDATA: /data/postgres
     volumes:
        - ./databases/postgres:/data/postgres
