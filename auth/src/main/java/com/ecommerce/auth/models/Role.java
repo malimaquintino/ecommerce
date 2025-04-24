@@ -1,7 +1,6 @@
 package com.ecommerce.auth.models;
 
 import jakarta.persistence.*;
-import org.springframework.data.annotation.Id;
 
 import java.util.Objects;
 

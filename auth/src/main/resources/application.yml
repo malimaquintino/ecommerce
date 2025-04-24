@@ -24,10 +24,10 @@ spring:
           lob:
             non_contextual_creation: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: false
+    show-sql: true
     flyway:
       enabled: true
-      schemas: user
+      schemas: auth
       baseline-on-migrate: true
       baseline-version: "1_001"
       ignore-future-migrations: false

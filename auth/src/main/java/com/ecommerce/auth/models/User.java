@@ -2,7 +2,6 @@ package com.ecommerce.auth.models;
 
 import com.ecommerce.auth.enums.UserType;
 import jakarta.persistence.*;
-import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -30,13 +29,8 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles;
+    //@ManyToMany(fetch = FetchType.EAGER)
+    // private Set<Role> roles;
 
     public User() {
     }
@@ -105,25 +99,25 @@ public class User {
         this.updatedAt = updatedAt;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
+    //public Set<Role> getRoles() {
+      //  return roles;
+    //}
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
+    //public void setRoles(Set<Role> roles) {
+      //  this.roles = roles;
+    //}
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return enabled == user.enabled && Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && type == user.type && Objects.equals(createdAt, user.createdAt) && Objects.equals(updatedAt, user.updatedAt) && Objects.equals(roles, user.roles);
+        return enabled == user.enabled && Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && type == user.type && Objects.equals(createdAt, user.createdAt) && Objects.equals(updatedAt, user.updatedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, password, type, enabled, createdAt, updatedAt, roles);
+        return Objects.hash(id, name, email, password, type, enabled, createdAt, updatedAt);
     }
 
     @Override
@@ -137,7 +131,7 @@ public class User {
                 ", enabled=" + enabled +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
-                ", roles=" + roles +
+      //          ", roles=" + roles +
                 '}';
     }
 }
