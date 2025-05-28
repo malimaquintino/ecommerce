@@ -20,11 +20,12 @@ public class User {
     private String email;
     @Column(name = "password", nullable = false)
     private String password;
+    @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private UserType type;
     @Column(name = "enabled", nullable = false)
     private boolean enabled;
-    @Column(name = "create_at", nullable = false)
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
