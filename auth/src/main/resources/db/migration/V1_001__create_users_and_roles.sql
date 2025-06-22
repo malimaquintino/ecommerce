@@ -3,8 +3,9 @@ create sequence if not exists roles_sequence start 1 increment 1;
 
 create table if not exists users (
 	id                  bigint not null primary key default nextval('users_sequence'),
+	document            varchar(15) not null UNIQUE,
 	name                varchar(150) not null,
-	email               varchar(150) not null,
+	email               varchar(150) not null UNIQUE,
 	password            varchar(128) not null,
 	type                varchar(10) not null,
 	enabled             boolean,

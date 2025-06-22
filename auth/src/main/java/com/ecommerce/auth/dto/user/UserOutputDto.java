@@ -1,14 +1,26 @@
 package com.ecommerce.auth.dto.user;
 
 import com.ecommerce.auth.enums.UserType;
+import com.ecommerce.auth.models.User;
+import com.ecommerce.auth.utils.UserUtils;
 
 import java.util.Objects;
 
 public class UserOutputDto {
+    private Long id;
+    private String document;
     private String name;
     private String email;
     private UserType type;
     private boolean enabled;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -42,26 +54,47 @@ public class UserOutputDto {
         this.enabled = enabled;
     }
 
+    public String getDocument() {
+        return document;
+    }
+
+    public void setDocument(String document) {
+        this.document = document;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserOutputDto that = (UserOutputDto) o;
-        return enabled == that.enabled && Objects.equals(name, that.name) && Objects.equals(email, that.email) && type == that.type;
+        return enabled == that.enabled && Objects.equals(id, that.id) && Objects.equals(document, that.document) && Objects.equals(name, that.name) && Objects.equals(email, that.email) && type == that.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, email, type, enabled);
+        return Objects.hash(id, document, name, email, type, enabled);
     }
 
     @Override
     public String toString() {
         return "UserOutputDto{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", document='" + document + '\'' +
+                ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", type=" + type +
                 ", enabled=" + enabled +
                 '}';
+    }
+
+    public static UserOutputDto parseFromEntity(User user) {
+        UserOutputDto userOutputDto = new UserOutputDto();
+        userOutputDto.setId(user.getId());
+        userOutputDto.setDocument(UserUtils.formatDocument(user.getDocument()));
+        userOutputDto.setName(user.getName());
+        userOutputDto.setEmail(user.getEmail());
+        userOutputDto.setType(user.getType());
+        userOutputDto.setEnabled(user.isEnabled());
+
+        return userOutputDto;
     }
 }

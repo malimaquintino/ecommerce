@@ -5,11 +5,11 @@ import com.ecommerce.auth.enums.UserType;
 import java.util.Objects;
 
 public class UserInputDto {
+    private String document;
     private String name;
     private String email;
     private String password;
     private UserType type;
-    private boolean enabled;
 
     public String getName() {
         return name;
@@ -43,35 +43,34 @@ public class UserInputDto {
         this.type = type;
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    public String getDocument() {
+        return document;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setDocument(String document) {
+        this.document = document;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserInputDto userInput = (UserInputDto) o;
-        return enabled == userInput.enabled && Objects.equals(name, userInput.name) && Objects.equals(email, userInput.email) && Objects.equals(password, userInput.password) && type == userInput.type;
+        UserInputDto that = (UserInputDto) o;
+        return Objects.equals(document, that.document) && Objects.equals(name, that.name) && Objects.equals(email, that.email) && Objects.equals(password, that.password) && type == that.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, email, password, type, enabled);
+        return Objects.hash(document, name, email, password, type);
     }
 
     @Override
     public String toString() {
-        return "UserInput{" +
-                "name='" + name + '\'' +
+        return "UserInputDto{" +
+                "document='" + document + '\'' +
+                ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", type=" + type +
-                ", enabled=" + enabled +
                 '}';
     }
 }

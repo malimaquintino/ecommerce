@@ -1,3 +1,6 @@
+server:
+  port: 8081
+
 spring:
   application:
     name: auth-ms
@@ -20,4 +23,6 @@ spring:
   flyway: # <-- aqui fora de "jpa"
     enabled: true
     schemas: auth
+    baseline-on-migrate: true
+    baseline-version: "1_001"
     ignore-future-migrations: false

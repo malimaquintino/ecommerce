@@ -16,14 +16,14 @@ public class UserController {
     private UserService userService;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> create(@Valid @RequestBody UserInputDto inputDto) {
-        UserOutputDto response = userService.create(inputDto);
+    public ResponseEntity<?> createNewCustomer(@Valid @RequestBody UserInputDto inputDto) {
+        UserOutputDto response = userService.createCustomer(inputDto);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> update(@PathVariable long id, @Valid @RequestBody UserInputDto inputDto) {
-        UserOutputDto response = userService.update(id, inputDto);
+    public ResponseEntity<?> updateCustomer(@PathVariable long id, @Valid @RequestBody UserInputDto inputDto) {
+        UserOutputDto response = userService.updateCustomer(id, inputDto);
         return ResponseEntity.ok(response);
     }
 }
