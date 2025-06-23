@@ -140,4 +140,11 @@ public class User {
 
         return user;
     }
+
+    public User updateUserFromInputDto(UserInputDto inputDto) {
+        this.setName(inputDto.getName());
+        this.setEmail(inputDto.getEmail());
+        this.setUpdatedAt(LocalDateTime.now());
+        return this;
+    }
 }

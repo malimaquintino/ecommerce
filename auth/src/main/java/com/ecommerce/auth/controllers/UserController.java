@@ -1,5 +1,6 @@
 package com.ecommerce.auth.controllers;
 
+import com.ecommerce.auth.dto.user.ChangePasswordDTO;
 import com.ecommerce.auth.dto.user.UserInputDto;
 import com.ecommerce.auth.dto.user.UserOutputDto;
 import com.ecommerce.auth.services.user.UserService;
@@ -23,7 +24,13 @@ public class UserController {
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateCustomer(@PathVariable long id, @Valid @RequestBody UserInputDto inputDto) {
-        UserOutputDto response = userService.updateCustomer(id, inputDto);
+        UserOutputDto response = userService.updateCustomerData(id, inputDto);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping(path = "/change-password/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateCustomerPassword(@PathVariable long id, @Valid @RequestBody ChangePasswordDTO passwordDto) {
+        UserOutputDto response = userService.changePassword(id, passwordDto);
         return ResponseEntity.ok(response);
     }
 }
