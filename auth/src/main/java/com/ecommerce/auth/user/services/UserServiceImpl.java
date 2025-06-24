@@ -1,16 +1,17 @@
-package com.ecommerce.auth.services.user;
+package com.ecommerce.auth.user.services;
 
-import com.ecommerce.auth.dto.user.ChangePasswordDTO;
-import com.ecommerce.auth.dto.user.UserInputDto;
-import com.ecommerce.auth.dto.user.UserOutputDto;
-import com.ecommerce.auth.enums.UserType;
 import com.ecommerce.auth.exceptions.BadRequestException;
 import com.ecommerce.auth.exceptions.NotFoundException;
-import com.ecommerce.auth.models.User;
-import com.ecommerce.auth.repositories.UserRepository;
+import com.ecommerce.auth.user.dto.ChangePasswordDTO;
+import com.ecommerce.auth.user.dto.UserInputDto;
+import com.ecommerce.auth.user.dto.UserOutputDto;
+import com.ecommerce.auth.user.enums.UserType;
+import com.ecommerce.auth.user.models.User;
+import com.ecommerce.auth.user.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -19,6 +20,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
@@ -26,7 +30,7 @@ public class UserServiceImpl implements UserService {
         try {
             logger.info("Creating new customer");
             inputDto.setType(UserType.CUSTOMER);
-            String cryptPass = "todo";
+            String cryptPass = passwordEncoder.encode(inputDto.getPassword());
             User newUser = User.parseFromUserInputDto(inputDto, cryptPass);
             return UserOutputDto.parseFromEntity(userRepository.save(newUser));
         } catch (Exception e) {
@@ -74,6 +78,11 @@ public class UserServiceImpl implements UserService {
             logger.error("Fail change password", e);
             throw e;
         }
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
     }
 
     @Override

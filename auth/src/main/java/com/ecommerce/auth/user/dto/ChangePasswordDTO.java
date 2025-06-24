@@ -1,4 +1,4 @@
-package com.ecommerce.auth.dto.user;
+package com.ecommerce.auth.user.dto;
 
 public class ChangePasswordDTO {
     private String password;

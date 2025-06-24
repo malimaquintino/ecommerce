@@ -1,4 +1,4 @@
-package com.ecommerce.auth.dto.auth;
+package com.ecommerce.auth.authentication.dto;
 
 import java.util.Objects;
 

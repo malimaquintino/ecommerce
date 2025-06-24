@@ -1,4 +1,4 @@
-package com.ecommerce.auth.models;
+package com.ecommerce.auth.user.models;
 
 import jakarta.persistence.*;
 

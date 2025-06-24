@@ -1,15 +1,19 @@
-package com.ecommerce.auth.models;
+package com.ecommerce.auth.user.models;
 
-import com.ecommerce.auth.dto.user.UserInputDto;
-import com.ecommerce.auth.enums.UserType;
-import com.ecommerce.auth.utils.UserUtils;
+import com.ecommerce.auth.user.dto.UserInputDto;
+import com.ecommerce.auth.user.enums.UserType;
+import com.ecommerce.auth.user.utils.UserUtils;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users", schema = "auth")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_sequence")
     @SequenceGenerator(name = "users_sequence", allocationSize = 1)
@@ -78,8 +82,18 @@ public class User {
         this.email = email;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
     }
 
     public void setPassword(String password) {

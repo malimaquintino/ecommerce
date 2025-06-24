@@ -1,9 +1,9 @@
-package com.ecommerce.auth.controllers;
+package com.ecommerce.auth.user.controllers;
 
-import com.ecommerce.auth.dto.user.ChangePasswordDTO;
-import com.ecommerce.auth.dto.user.UserInputDto;
-import com.ecommerce.auth.dto.user.UserOutputDto;
-import com.ecommerce.auth.services.user.UserService;
+import com.ecommerce.auth.user.dto.ChangePasswordDTO;
+import com.ecommerce.auth.user.dto.UserInputDto;
+import com.ecommerce.auth.user.dto.UserOutputDto;
+import com.ecommerce.auth.user.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

@@ -1,4 +1,4 @@
-package com.ecommerce.auth.enums;
+package com.ecommerce.auth.user.enums;
 
 public enum UserType {
     CUSTOMER("CUSTOMER"),

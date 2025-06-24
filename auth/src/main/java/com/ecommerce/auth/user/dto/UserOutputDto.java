@@ -1,8 +1,8 @@
-package com.ecommerce.auth.dto.user;
+package com.ecommerce.auth.user.dto;
 
-import com.ecommerce.auth.enums.UserType;
-import com.ecommerce.auth.models.User;
-import com.ecommerce.auth.utils.UserUtils;
+import com.ecommerce.auth.user.enums.UserType;
+import com.ecommerce.auth.user.models.User;
+import com.ecommerce.auth.user.utils.UserUtils;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package com.ecommerce.auth.utils;
+package com.ecommerce.auth.user.utils;
 
 public class UserUtils {
 
