@@ -26,3 +26,6 @@ spring:
     baseline-on-migrate: true
     baseline-version: "1_001"
     ignore-future-migrations: false
+
+jwt:
+  secret: 6f2a49b34d0b4904a8e768847c1f17f6dc582fd64e61a1839d87ec2a8f65b376MySecret

@@ -3,7 +3,7 @@ package com.ecommerce.auth.authentication.dto;
 import java.util.Objects;
 
 public class RegisterDTO {
-    private String cpf;
+    private String document;
     private String name;
     private String email;
     private String password;
@@ -11,19 +11,19 @@ public class RegisterDTO {
     public RegisterDTO() {
     }
 
-    public RegisterDTO(String cpf, String name, String email, String password) {
-        this.cpf = cpf;
+    public RegisterDTO(String document, String name, String email, String password) {
+        this.document = document;
         this.name = name;
         this.email = email;
         this.password = password;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getDocument() {
+        return document;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setDocument(String document) {
+        this.document = document;
     }
 
     public String getName() {
@@ -54,18 +54,18 @@ public class RegisterDTO {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         RegisterDTO that = (RegisterDTO) o;
-        return Objects.equals(cpf, that.cpf) && Objects.equals(name, that.name) && Objects.equals(email, that.email) && Objects.equals(password, that.password);
+        return Objects.equals(document, that.document) && Objects.equals(name, that.name) && Objects.equals(email, that.email) && Objects.equals(password, that.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cpf, name, email, password);
+        return Objects.hash(document, name, email, password);
     }
 
     @Override
     public String toString() {
         return "RegisterDTO{" +
-                "cpf='" + cpf + '\'' +
+                "document='" + document + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +

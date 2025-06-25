@@ -10,10 +10,10 @@ import com.ecommerce.auth.user.dto.UserInputDto;
 import com.ecommerce.auth.user.models.User;
 import com.ecommerce.auth.user.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AuthServiceImpl implements AuthService {
     @Autowired
     private UserService userService;
@@ -44,7 +44,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void register(RegisterDTO dto) {
         UserInputDto userInputDto = new UserInputDto();
-        userInputDto.setDocument(dto.getCpf());
+        userInputDto.setDocument(dto.getDocument());
         userInputDto.setName(dto.getName());
         userInputDto.setEmail(dto.getEmail());
         userInputDto.setPassword(dto.getPassword());
