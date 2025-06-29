@@ -2,7 +2,8 @@ package com.ecommerce.auth.user.enums;
 
 public enum UserType {
     CUSTOMER("CUSTOMER"),
-    ADMIN("ADMIN");
+    ADMIN("ADMIN"),
+    STORE_ADMIN("STORE_ADMIN");
 
     private final String userType;
 

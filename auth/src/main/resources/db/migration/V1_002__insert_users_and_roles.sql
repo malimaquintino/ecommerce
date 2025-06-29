@@ -2,7 +2,7 @@ INSERT INTO roles (id, name, description)
 VALUES
     (1, 'ADMIN', 'Administrador geral do sistema'),
     (2, 'CUSTOMER', 'Cliente do e-commerce'),
-    (3, 'FINANCIAL_ADMIN', 'Administrador financeiro');
+    (3, 'STORE_ADMIN', 'Administrador da loja');
 ALTER SEQUENCE roles_sequence RESTART WITH 4;
 
 INSERT INTO users (id, document, name, email, password, type, enabled, created_at, updated_at)

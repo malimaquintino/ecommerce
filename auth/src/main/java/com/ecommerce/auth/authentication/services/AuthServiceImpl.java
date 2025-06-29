@@ -1,12 +1,11 @@
 package com.ecommerce.auth.authentication.services;
 
 import com.ecommerce.auth.authentication.dto.LoginDto;
-import com.ecommerce.auth.authentication.dto.RegisterDTO;
 import com.ecommerce.auth.authentication.dto.TokenResponseDTO;
 import com.ecommerce.auth.exceptions.NotFoundException;
 import com.ecommerce.auth.exceptions.UnauthorizedException;
 import com.ecommerce.auth.jwt.services.JwtService;
-import com.ecommerce.auth.user.dto.UserInputDto;
+import com.ecommerce.auth.user.dto.RegisterDTO;
 import com.ecommerce.auth.user.models.User;
 import com.ecommerce.auth.user.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,18 +35,13 @@ public class AuthServiceImpl implements AuthService {
             throw new UnauthorizedException("Invalid credentials");
         }
 
-        String token = jwtService.generateToken(user.getEmail());
+        String token = jwtService.generateToken(user);
 
         return new TokenResponseDTO(token);
     }
 
     @Override
     public void register(RegisterDTO dto) {
-        UserInputDto userInputDto = new UserInputDto();
-        userInputDto.setDocument(dto.getDocument());
-        userInputDto.setName(dto.getName());
-        userInputDto.setEmail(dto.getEmail());
-        userInputDto.setPassword(dto.getPassword());
-        userService.createCustomer(userInputDto);
+        userService.createCustomer(dto);
     }
 }

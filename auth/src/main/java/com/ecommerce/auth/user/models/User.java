@@ -1,15 +1,19 @@
 package com.ecommerce.auth.user.models;
 
+import com.ecommerce.auth.user.dto.RegisterDTO;
 import com.ecommerce.auth.user.dto.UserInputDto;
 import com.ecommerce.auth.user.enums.UserType;
 import com.ecommerce.auth.user.utils.UserUtils;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users", schema = "auth")
@@ -19,13 +23,13 @@ public class User implements UserDetails {
     @SequenceGenerator(name = "users_sequence", allocationSize = 1)
     private Long id;
 
-    @Column(name = "document", nullable = false)
+    @Column(name = "document", nullable = false, unique = true)
     private String document;
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "password", nullable = false)
@@ -44,8 +48,13 @@ public class User implements UserDetails {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    //@ManyToMany(fetch = FetchType.EAGER)
-    // private Set<Role> roles;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
@@ -84,7 +93,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
+                .collect(Collectors.toList());
     }
 
     public String getPassword() {
@@ -132,26 +143,30 @@ public class User implements UserDetails {
         this.updatedAt = updatedAt;
     }
 
-    //public Set<Role> getRoles() {
-    //  return roles;
-    //}
+    public Set<Role> getRoles() {
+        return roles;
+    }
 
-    //public void setRoles(Set<Role> roles) {
-    //  this.roles = roles;
-    //}
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
 
 
-    public static User parseFromUserInputDto(UserInputDto inputDto, String crypt) {
+    public static User parseFromRegisterDto(RegisterDTO inputDto, String crypt, UserType type, Role role) {
         User user = new User();
         user.setDocument(UserUtils.cleanDocumentFormat(inputDto.getDocument()));
         user.setName(inputDto.getName());
         user.setEmail(inputDto.getEmail());
         user.setEnabled(true);
-        user.setType(inputDto.getType());
+        user.setType(type);
         user.setPassword(crypt);
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
-
+        user.addRole(role);
         return user;
     }
 

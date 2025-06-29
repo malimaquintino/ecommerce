@@ -3,9 +3,11 @@ package com.ecommerce.auth.user.services;
 import com.ecommerce.auth.exceptions.BadRequestException;
 import com.ecommerce.auth.exceptions.NotFoundException;
 import com.ecommerce.auth.user.dto.ChangePasswordDTO;
+import com.ecommerce.auth.user.dto.RegisterDTO;
 import com.ecommerce.auth.user.dto.UserInputDto;
 import com.ecommerce.auth.user.dto.UserOutputDto;
 import com.ecommerce.auth.user.enums.UserType;
+import com.ecommerce.auth.user.models.Role;
 import com.ecommerce.auth.user.models.User;
 import com.ecommerce.auth.user.repositories.UserRepository;
 import org.slf4j.Logger;
@@ -21,17 +23,20 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private RoleService roleService;
+
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
-    public UserOutputDto createCustomer(UserInputDto inputDto) {
+    public UserOutputDto createCustomer(RegisterDTO registerDTO) {
         try {
             logger.info("Creating new customer");
-            inputDto.setType(UserType.CUSTOMER);
-            String cryptPass = passwordEncoder.encode(inputDto.getPassword());
-            User newUser = User.parseFromUserInputDto(inputDto, cryptPass);
+            Role role = roleService.getRoleByName("CUSTOMER");
+            String cryptPass = passwordEncoder.encode(registerDTO.getPassword());
+            User newUser = User.parseFromRegisterDto(registerDTO, cryptPass, UserType.CUSTOMER, role);
             return UserOutputDto.parseFromEntity(userRepository.save(newUser));
         } catch (Exception e) {
             logger.error("Fail to create new customer", e);
@@ -72,7 +77,8 @@ public class UserServiceImpl implements UserService {
             if (user == null) {
                 throw new NotFoundException("User not found");
             }
-            user.setPassword(passwordDTO.getPassword());
+            String cryptPass = passwordEncoder.encode(passwordDTO.getPassword());
+            user.setPassword(cryptPass);
             return UserOutputDto.parseFromEntity(userRepository.save(user));
         } catch (Exception e) {
             logger.error("Fail change password", e);

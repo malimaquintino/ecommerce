@@ -1,7 +1,7 @@
 package com.ecommerce.auth.authentication.controllers;
 
 import com.ecommerce.auth.authentication.dto.LoginDto;
-import com.ecommerce.auth.authentication.dto.RegisterDTO;
+import com.ecommerce.auth.user.dto.RegisterDTO;
 import com.ecommerce.auth.authentication.dto.TokenResponseDTO;
 import com.ecommerce.auth.authentication.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;

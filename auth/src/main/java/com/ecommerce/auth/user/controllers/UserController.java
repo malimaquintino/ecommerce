@@ -16,12 +16,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createNewCustomer(@Valid @RequestBody UserInputDto inputDto) {
-        UserOutputDto response = userService.createCustomer(inputDto);
-        return ResponseEntity.ok(response);
-    }
-
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateCustomer(@PathVariable long id, @Valid @RequestBody UserInputDto inputDto) {
         UserOutputDto response = userService.updateCustomerData(id, inputDto);

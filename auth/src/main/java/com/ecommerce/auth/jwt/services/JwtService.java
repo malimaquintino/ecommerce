@@ -1,5 +1,7 @@
 package com.ecommerce.auth.jwt.services;
 
+import com.ecommerce.auth.user.models.Role;
+import com.ecommerce.auth.user.models.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,22 +11,23 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class JwtService {
     @Value("${jwt.secret}")
     private String secret;
 
-    public String generateToken(String subject) {
+    public String generateToken(User user) {
         return Jwts.builder()
-                .setSubject(subject)
+                .setSubject(user.getEmail())
+                .claim("roles", user.getRoles().stream()
+                        .map(Role::getName).toList())
                 .setIssuedAt(new Date())
-                .setExpiration(Date.from(
-                        LocalDateTime.now().plusHours(2)
-                                .atZone(ZoneId.systemDefault())
-                                .toInstant()
-                ))
+                .setExpiration(Date.from(LocalDateTime.now().plusHours(2)
+                        .atZone(ZoneId.systemDefault()).toInstant()))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS512)
                 .compact();
     }
@@ -51,6 +54,20 @@ public class JwtService {
                 .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token);
+    }
+
+    public List<String> extractRoles(String token) {
+        Claims claims = parseToken(token).getBody();
+        Object roles = claims.get("roles");
+
+        if (roles instanceof List<?>) {
+            return ((List<?>) roles).stream()
+                    .filter(String.class::isInstance)
+                    .map(String.class::cast)
+                    .toList();
+        }
+
+        return Collections.emptyList();
     }
 
 }
