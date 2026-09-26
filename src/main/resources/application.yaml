@@ -1,3 +1,29 @@
 spring:
   application:
     name: ecommerce
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ecommerce
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    schemas: identity, customer, catalog, inventory, cart, order, notification, audit
+    default-schema: public
+    baseline-on-migrate: true
+    out-of-order: false
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        default_schema: public
+
+server:
+  port: 8088
