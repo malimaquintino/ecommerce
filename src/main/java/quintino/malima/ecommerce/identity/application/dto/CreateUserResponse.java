@@ -5,8 +5,8 @@ import java.util.UUID;
 
 public record CreateUserResponse(
         UUID userCode,
-        String nome,
-        String documento,
+        String name,
+        String document,
         String email,
         String status,
         LocalDateTime createdAt

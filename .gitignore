@@ -36,3 +36,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# PostgreSQL local data volume
+database_postgres/

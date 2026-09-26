@@ -16,16 +16,16 @@ public class User {
     private UUID userCode;
 
     @Column(nullable = false)
-    private String nome;
+    private String name;
 
     @Column(nullable = false, unique = true)
-    private String documento;
+    private String document;
 
     @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
-    private String senha;
+    private String password;
 
     @Column(nullable = false)
     private String status;
@@ -38,26 +38,24 @@ public class User {
 
     protected User() {}
 
-    public User(String nome, String documento, String email, String senha) {
+    public User(String name, String document, String email, String password) {
         this.userCode  = UUID.randomUUID();
-        this.nome      = nome;
-        this.documento = documento;
+        this.name      = name;
+        this.document  = document;
         this.email     = email;
-        this.senha     = senha;
+        this.password  = password;
         this.status    = "ACTIVE";
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
 
-    // getters
-
-    public Long getId()              { return id; }
-    public UUID getUserCode()        { return userCode; }
-    public String getNome()          { return nome; }
-    public String getDocumento()     { return documento; }
-    public String getEmail()         { return email; }
-    public String getSenha()         { return senha; }
-    public String getStatus()        { return status; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public Long getId()                  { return id; }
+    public UUID getUserCode()            { return userCode; }
+    public String getName()              { return name; }
+    public String getDocument()          { return document; }
+    public String getEmail()             { return email; }
+    public String getPassword()          { return password; }
+    public String getStatus()            { return status; }
+    public LocalDateTime getCreatedAt()  { return createdAt; }
+    public LocalDateTime getUpdatedAt()  { return updatedAt; }
 }
