@@ -4,7 +4,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import quintino.malima.ecommerce.identity.application.UserService;
 import quintino.malima.ecommerce.identity.application.dto.CreateUserRequest;
-import quintino.malima.ecommerce.identity.application.dto.CreateUserResponse;
 import quintino.malima.ecommerce.identity.domain.User;
 import quintino.malima.ecommerce.identity.infrastructure.persistence.UserRepository;
 
@@ -20,25 +19,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public CreateUserResponse create(CreateUserRequest request) {
-        String hashedPassword = passwordEncoder.encode(request.password());
-
+    public User create(CreateUserRequest request) {
         User user = new User(
                 request.name(),
                 request.document(),
                 request.email(),
-                hashedPassword
+                passwordEncoder.encode(request.password())
         );
 
-        User saved = userRepository.save(user);
-
-        return new CreateUserResponse(
-                saved.getUserCode(),
-                saved.getName(),
-                saved.getDocument(),
-                saved.getEmail(),
-                saved.getStatus(),
-                saved.getCreatedAt()
-        );
+        return userRepository.save(user);
     }
 }

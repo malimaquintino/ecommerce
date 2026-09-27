@@ -3,11 +3,11 @@ package quintino.malima.ecommerce.identity.application.dto;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record CreateUserResponse(
-        UUID userCode,
+public record CreateEmployeeResponse(
+        UUID employeeCode,
         String name,
         String document,
         String email,
-        String status,
+        Short status,
         LocalDateTime createdAt
 ) {}

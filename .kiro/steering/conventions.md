@@ -98,7 +98,43 @@ Exemplos de tradução:
 
 ---
 
-## 5. Leitura obrigatória de contexto
+## 5. Sem mapeamentos JPA entre entidades de tabelas relacionadas
+
+**Evite anotações de relacionamento JPA** (`@OneToOne`, `@OneToMany`, `@ManyToOne`, `@ManyToMany`) para modelar vínculos entre entidades.
+
+Prefira **armazenar apenas o ID** da entidade relacionada e coordenar a persistência via injeção de service.
+
+```java
+// ✅ Correto — referência via ID, coordenação via service
+public class Employee {
+    private Long userId;  // só o ID, sem a entidade User
+}
+
+@Service
+public class EmployeeServiceImpl implements EmployeeService {
+    private final UserService userService;  // injeta o service, não o repositório
+
+    @Transactional
+    public CreateEmployeeResponse create(CreateEmployeeRequest request) {
+        User user         = userService.create(...);    // salva o User
+        Employee employee = new Employee(user.getId()); // usa apenas o ID
+        employeeRepository.save(employee);              // salva o Employee
+    }
+}
+
+// ❌ Evitar — acoplamento via mapeamento JPA
+public class Employee {
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "user_id")
+    private User user;
+}
+```
+
+**Motivo:** mapeamentos JPA com cascade criam dependências implícitas entre entidades, dificultam o controle transacional explícito e complicam a extração futura de contextos para serviços independentes.
+
+---
+
+## 6. Leitura obrigatória de contexto
 
 Antes de criar ou alterar qualquer código, sempre leia:
 - `.kiro/steering/project.md` — arquitetura, contextos, regras e roadmap do projeto

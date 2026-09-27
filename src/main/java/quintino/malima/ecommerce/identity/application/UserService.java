@@ -1,9 +1,9 @@
 package quintino.malima.ecommerce.identity.application;
 
+import quintino.malima.ecommerce.identity.domain.User;
 import quintino.malima.ecommerce.identity.application.dto.CreateUserRequest;
-import quintino.malima.ecommerce.identity.application.dto.CreateUserResponse;
 
 public interface UserService {
 
-    CreateUserResponse create(CreateUserRequest request);
+    User create(CreateUserRequest request);
 }
