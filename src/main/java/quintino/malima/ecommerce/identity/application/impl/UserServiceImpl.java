@@ -7,6 +7,8 @@ import quintino.malima.ecommerce.identity.application.dto.CreateUserRequest;
 import quintino.malima.ecommerce.identity.domain.User;
 import quintino.malima.ecommerce.identity.infrastructure.persistence.UserRepository;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -28,5 +30,10 @@ public class UserServiceImpl implements UserService {
         );
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

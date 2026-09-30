@@ -134,7 +134,57 @@ public class Employee {
 
 ---
 
-## 6. Leitura obrigatória de contexto
+## 6. Queries de consulta — preferir native queries
+
+Ao criar métodos de consulta em repositórios, **prefira native queries** em vez de JPQL ou query methods derivados do nome.
+
+Use a anotação `@Query` com `nativeQuery = true` e referencie sempre as tabelas com o schema qualificado.
+
+```java
+// ✅ Correto — native query com schema qualificado
+@Query(value = "SELECT * FROM identity.users WHERE email = :email LIMIT 1", nativeQuery = true)
+Optional<User> findByEmail(@Param("email") String email);
+
+// ❌ Evitar — query method derivado (oculta o SQL real)
+Optional<User> findByEmail(String email);
+
+// ❌ Evitar — JPQL (não usa schema qualificado, abstrai demais)
+@Query("SELECT u FROM User u WHERE u.email = :email")
+Optional<User> findByEmail(@Param("email") String email);
+```
+
+**Motivo:** native queries são explícitas, usam o SQL real do banco, respeitam os schemas por contexto e evitam surpresas de tradução do ORM.
+
+---
+
+## 7. Repositories são privados aos seus services
+
+**Repositories só devem ser injetados no service correspondente à sua entidade.**
+Outros services nunca injetam um repository diretamente — sempre passam pelo service responsável.
+
+```java
+// ✅ Correto — AuthService consulta usuários pelo UserService
+@Service
+public class AuthServiceImpl implements AuthService {
+    private final UserService userService;
+
+    public LoginResponse login(LoginRequest request, String ip) {
+        User user = userService.findByEmail(request.email())...;
+    }
+}
+
+// ❌ Errado — AuthService acessa o banco de User diretamente
+@Service
+public class AuthServiceImpl implements AuthService {
+    private final UserRepository userRepository; // viola a regra
+}
+```
+
+**Motivo:** centraliza a lógica de acesso e regras de negócio no service dono da entidade. Facilita testes, manutenção e a futura extração de contextos em serviços independentes.
+
+---
+
+## 8. Leitura obrigatória de contexto
 
 Antes de criar ou alterar qualquer código, sempre leia:
 - `.kiro/steering/project.md` — arquitetura, contextos, regras e roadmap do projeto
